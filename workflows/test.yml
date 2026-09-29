@@ -1,0 +1,10 @@
+name: test-fetch
+on: workflow_dispatch
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -s -o out.html -w "status=%{http_code}\n" -A "Mozilla/5.0" https://syndication.twitter.com/srv/timeline-profile/screen-name/nasa
+          echo "bytes=$(wc -c < out.html)"
+          echo "tweets=$(grep -o '"id_str":"[0-9]*"' out.html | wc -l)"
